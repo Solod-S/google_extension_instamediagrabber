@@ -1,7 +1,7 @@
 body {
   margin: 0px;
   padding: 0px;
-  background-color: #111111;
+  background-color: #ffffff;
 }
 
 .header {
@@ -13,16 +13,17 @@ body {
   width: 100%;
   position: fixed;
   padding: 10px;
-  background: linear-gradient(#111111, #111111);
+  background: linear-gradient(#5bc4bc, #01a9e1);
   z-index: 100;
-  /* box-shadow: 0px 5px 5px #00222266; */
+  box-shadow: 0px 5px 5px #00222266;
 }
 
 .header > span {
   font-weight: bold;
+  color: black;
   text-transform: uppercase;
-  color: #b2b7b7;
-  /* text-shadow: 3px 3px 3px #000000ff; */
+  color: #ffffff;
+  text-shadow: 3px 3px 3px #000000ff;
   font-size: 24px;
 }
 
@@ -33,10 +34,11 @@ body {
   margin-right: 10px;
 }
 
-.header > div > label > span {
+.header > div > span {
   font-weight: bold;
-  color: #b2b7b7;
+  color: #ffffff;
   font-size: 16px;
+  text-shadow: 3px 3px 3px #00000088;
 }
 
 .header input {
@@ -45,25 +47,22 @@ body {
 }
 
 .header > button {
-  color: #fdfdfd;
-  background: linear-gradient(#f24418, #a56316);
+  color: white;
+  background: linear-gradient(#01a9e1, #5bc4bc);
   border-width: 0px;
   border-radius: 5px;
   padding: 10px;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 2px 2px #00000066;
   margin-right: 20px;
   font-size: 16px;
   text-shadow: 2px 2px 2px#00000088;
-  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
-    color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header > button:hover {
-  background: linear-gradient(#a56316, #f24418);
-  color: #ffffff;
-  transform: scale(1.1);
-  /* box-shadow: 2px 2px #00000066; */
+  background: linear-gradient(#5bc4bc, #01a9e1);
+  box-shadow: 2px 2px #00000066;
 }
 
 .container {
@@ -86,16 +85,13 @@ body {
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
-  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  /* background: linear-gradient(#000, #e10101); */
-  /* box-shadow: 5px 5px 5px #00222266; */
+  background: linear-gradient(#01a9e1, #5bc4bc);
+  box-shadow: 5px 5px 5px #00222266;
 }
 
 .imageDiv:hover {
-  /* background: linear-gradient(#e10101, #000); */
-  cursor: pointer;
-  transform: scale(1.1);
-  box-shadow: 1px 1px 5px 1px rgba(255, 107, 8, 0.42);
+  background: linear-gradient(#5bc4bc, #01a9e1);
+  box-shadow: 10px 10px 10px #00222266;
 }
 
 .imageDiv img {
@@ -109,8 +105,4 @@ body {
   right: 10px;
   width: 20px;
   height: 20px;
-}
-
-input {
-  accent-color: #f24418;
 }

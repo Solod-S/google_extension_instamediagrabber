@@ -3,6 +3,7 @@ import JSZip from 'jszip';
 import './DowloadPage.css';
 
 function DowloadPage() {
+  const [urls, setUrls] = useState([]);
   const [selectedUrls, setSelectedUrls] = useState([]);
 
   useEffect(() => {
@@ -11,7 +12,7 @@ function DowloadPage() {
       // Обработать сообщение здесь
       console.log('Received message:', message);
       // Добавить обработку сообщения, например, обновить список URL-адресов
-      setSelectedUrls(message);
+      setUrls(message);
       // Отправить подтверждение
       sendResponse('Message received!');
     });
@@ -86,35 +87,46 @@ function DowloadPage() {
     <div>
       <div className="header">
         <div>
-          <input
-            type="checkbox"
-            id="selectAll"
-            onChange={(event) => {
-              const checked = event.target.checked;
-              const items = document.querySelectorAll('.container input');
-              for (let item of items) {
-                item.checked = checked;
-                handleCheckboxChange(event);
-              }
-            }}
-          />
-          &nbsp;
-          <span>Select all</span>
+          <label for="selectAll" style={{ cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              name="selectAll"
+              id="selectAll"
+              onChange={(event) => {
+                const checked = event.target.checked;
+                const items = document.querySelectorAll('.container input');
+                for (let item of items) {
+                  item.checked = checked;
+                  handleCheckboxChange(event);
+                }
+              }}
+            />
+            &nbsp;
+            <span>Select all</span>
+          </label>
         </div>
-        <span>Image Grabber</span>
+        {/* <span>Instagram Media Grabber</span> */}
         <button id="downloadBtn" onClick={handleDownload}>
           Download
         </button>
       </div>
       <div className="container">
-        {/* Map through your image URLs here */}
-        {/* Example: */}
-        {/* {imageUrls.map((url, index) => (
-          <div className="imageDiv" key={index}>
-            <img src={url} alt={`Image ${index}`} />
-            <input type="checkbox" value={url} onChange={handleCheckboxChange} />
-          </div>
-        ))} */}
+        {urls.length > 0 &&
+          urls.map((url, index) => (
+            <label for={`img_checkbox` + index} key={index}>
+              <div className="imageDiv">
+                <img crossorigin="anonymous" src={url} alt="img" />
+                <input
+                  class="checkbox-input"
+                  name={`img_checkbox` + index}
+                  id={`img_checkbox` + index}
+                  type="checkbox"
+                  value={url}
+                  onChange={handleCheckboxChange}
+                />
+              </div>
+            </label>
+          ))}
       </div>
     </div>
   );
