@@ -1,0 +1,6 @@
+/.DS_Store
+/credentials.json
+/node_modules
+.credentials.json
+.env
+/.vscode
