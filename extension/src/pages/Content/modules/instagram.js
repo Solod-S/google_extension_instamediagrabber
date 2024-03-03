@@ -17,9 +17,7 @@ export const handler = async () => {
     const needToDownloadImg = Boolean(target?.closest('._aagv'));
 
     const needToDownloadVideo = Boolean(target?.closest('div._aatk._aatl'));
-    const needToDownloadReals = Boolean(
-      target?.closest('div') && window.location.href.includes('reels')
-    );
+
     switch (true) {
       case needToDownloadImg:
         console.log(`needToDownloadImg`, needToDownloadImg);
@@ -80,17 +78,25 @@ export const handler = async () => {
 
           if (responseData.success) {
             const videoResponse = await fetch(responseData.url);
+            console.log(`videoResponse`, videoResponse);
             const videoBlob = await videoResponse.blob();
+            console.log(`videoBlob`, videoBlob);
             zip.file('video.mp4', videoBlob);
+            console.log(
+              `!window.location.href.includes('img_index')`,
+              !window.location.href.includes('img_index')
+            );
+            if (!window.location.href.includes('img_index')) {
+              const imageResponse = await fetch(responseData.thumbnail);
+              console.log(`imageResponse`, imageResponse);
+              const imageBlob = await imageResponse.blob();
+              console.log(`imageBlob`, imageBlob);
+              zip.file('thumbnail.jpg', imageBlob);
+            }
 
-            // Скачивание изображения
-            const imageResponse = await fetch(responseData.thumbnail);
-            const imageBlob = await imageResponse.blob();
-            zip.file('thumbnail.jpg', imageBlob);
-
-            // Генерация архива и скачивание
+            // Archive generation and downloading
             zip.generateAsync({ type: 'blob' }).then(function (content) {
-              // Скачивание архива
+              // Downloading the archive
               const zipUrl = URL.createObjectURL(content);
               const a = document.createElement('a');
               a.href = zipUrl;
@@ -111,64 +117,6 @@ export const handler = async () => {
         }
         break;
 
-      case needToDownloadReals:
-        console.log(`needToDownloadReals`, needToDownloadReals);
-        const realsWrapper = btn.querySelector('div');
-        try {
-          const pageUrl = window.location.href;
-          btn.disabled = true;
-          realsWrapper.innerHTML = GeneralLoadingBtnIcon(20, '#666666');
-          realsWrapper.classList.add('rotate');
-
-          const pageUrlResponse = await fetch(
-            'http://localhost:1234/instagram/getvideo',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ url: pageUrl }),
-            }
-          );
-          if (!pageUrlResponse.ok) {
-            throw new Error('Network response was not ok');
-          }
-
-          const responseData = await pageUrlResponse.json();
-
-          if (responseData.success) {
-            const videoResponse = await fetch(responseData.url);
-            const videoBlob = await videoResponse.blob();
-            zip.file('video.mp4', videoBlob);
-
-            // Скачивание изображения
-            const imageResponse = await fetch(responseData.thumbnail);
-            const imageBlob = await imageResponse.blob();
-            zip.file('thumbnail.jpg', imageBlob);
-
-            // Генерация архива и скачивание
-            zip.generateAsync({ type: 'blob' }).then(function (content) {
-              // Скачивание архива
-              const zipUrl = URL.createObjectURL(content);
-              const a = document.createElement('a');
-              a.href = zipUrl;
-              a.download = 'media.zip';
-              document.body.appendChild(a);
-              a.click();
-              window.URL.revokeObjectURL(zipUrl);
-            });
-          } else {
-            console.error('Ошибка при загрузке видео');
-          }
-        } catch (error) {
-          console.error('Произошла ошибка:', error);
-        } finally {
-          btn.disabled = false;
-          realsWrapper.innerHTML = GeneralVideoBtnIcon(20, '#666666');
-          realsWrapper.classList.remove('rotate');
-        }
-
-        break;
       default:
         break;
     }
@@ -180,6 +128,9 @@ export const injector = () => {
   document
     .querySelectorAll('div._aagv img[ crossorigin="anonymous" ]')
     .forEach((el) => {
+      const parentLink = el.closest('a[role="link"]');
+      if (parentLink) return;
+
       if (el.getAttribute('hasDownloadBtn') === 'true') return;
       el.setAttribute('hasDownloadBtn', 'true');
 
@@ -220,52 +171,10 @@ export const injector = () => {
     });
 
   // video
-  document.querySelectorAll('video[preload="none"]').forEach((el) => {
-    if (el.getAttribute('hasDownloadBtn') === 'true') return;
-    el.setAttribute('hasDownloadBtn', 'true');
-
-    const instaDownloadBtn = document.createElement('button');
-    instaDownloadBtn.setAttribute('type', 'button');
-    instaDownloadBtn.setAttribute('id', 'instagram-btn');
-    instaDownloadBtn.setAttribute(
-      'class',
-      'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
-    );
-    instaDownloadBtn.style.position = 'absolute';
-    instaDownloadBtn.style.left = '4px';
-    instaDownloadBtn.style.top = '4px';
-    instaDownloadBtn.style.zIndex = '1';
-    instaDownloadBtn.style.cursor = 'pointer';
-    instaDownloadBtn.style.background =
-      'linear-gradient(45deg, #F4B04B, #A535B1)';
-    instaDownloadBtn.style.borderRadius = '30%';
-    instaDownloadBtn.style.transition = 'transform 250ms';
-
-    instaDownloadBtn.addEventListener('mouseenter', () => {
-      instaDownloadBtn.style.transform = 'scale(1.1)';
-    });
-
-    instaDownloadBtn.addEventListener('mouseleave', () => {
-      instaDownloadBtn.style.transform = 'scale(1)';
-    });
-
-    const instaWrapper = document.createElement('div');
-    instaWrapper.innerHTML = GeneralVideoBtnIcon(20, '#666666');
-    instaDownloadBtn.appendChild(instaWrapper);
-    // instaDownloadBtn.innerHTML = GeneralLoadingBtnIcon(20, '#666666');
-
-    const parentDiv = el.closest('div._aatk._aatl') || el.closest('div');
-
-    if (parentDiv) {
-      parentDiv.style.position = 'relative';
-      parentDiv.appendChild(instaDownloadBtn);
-    }
-  });
-
-  // reals
-
-  window.location.href.includes('stories') &&
-    document.querySelectorAll('div img[ draggable="false" ]').forEach((el) => {
+  !window.location.href.includes('highlights') &&
+    !window.location.href.includes('instagram.com/?') &&
+    !window.location.href.includes('stories') &&
+    document.querySelectorAll('video[preload="none"]').forEach((el) => {
       if (el.getAttribute('hasDownloadBtn') === 'true') return;
       el.setAttribute('hasDownloadBtn', 'true');
 
@@ -277,8 +186,10 @@ export const injector = () => {
         'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
       );
       instaDownloadBtn.style.position = 'absolute';
-      instaDownloadBtn.style.left = '15px';
-      instaDownloadBtn.style.top = '98pxpx';
+      instaDownloadBtn.style.left = '4px';
+      instaDownloadBtn.style.top = window.location.href.includes('stories')
+        ? '90px'
+        : '4px';
       instaDownloadBtn.style.zIndex = '1';
       instaDownloadBtn.style.cursor = 'pointer';
       instaDownloadBtn.style.background =
@@ -293,17 +204,62 @@ export const injector = () => {
       instaDownloadBtn.addEventListener('mouseleave', () => {
         instaDownloadBtn.style.transform = 'scale(1)';
       });
-      const instaWrapper = document.createElement('div');
-      instaWrapper.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
-      instaDownloadBtn.appendChild(instaWrapper);
-      // instaDownloadBtn.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
 
+      const instaWrapper = document.createElement('div');
+      instaWrapper.innerHTML = GeneralVideoBtnIcon(20, '#666666');
+      instaDownloadBtn.appendChild(instaWrapper);
+      // instaDownloadBtn.innerHTML = GeneralLoadingBtnIcon(20, '#666666');
+
+      // const parentDiv = el.closest('div._aatk._aatl') || el.closest('div');
       const parentDiv = el.closest('div');
       if (parentDiv) {
         parentDiv.style.position = 'relative';
         parentDiv.appendChild(instaDownloadBtn);
       }
     });
+
+  // reals
+
+  // window.location.href.includes('stories') &&
+  //   document.querySelectorAll('div img[ draggable="false" ]').forEach((el) => {
+  //     if (el.getAttribute('hasDownloadBtn') === 'true') return;
+  //     el.setAttribute('hasDownloadBtn', 'true');
+
+  //     const instaDownloadBtn = document.createElement('button');
+  //     instaDownloadBtn.setAttribute('type', 'button');
+  //     instaDownloadBtn.setAttribute('id', 'instagram-btn');
+  //     instaDownloadBtn.setAttribute(
+  //       'class',
+  //       'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
+  //     );
+  //     instaDownloadBtn.style.position = 'absolute';
+  //     instaDownloadBtn.style.left = '15px';
+  //     instaDownloadBtn.style.top = '98pxpx';
+  //     instaDownloadBtn.style.zIndex = '1';
+  //     instaDownloadBtn.style.cursor = 'pointer';
+  //     instaDownloadBtn.style.background =
+  //       'linear-gradient(45deg, #F4B04B, #A535B1)';
+  //     instaDownloadBtn.style.borderRadius = '30%';
+  //     instaDownloadBtn.style.transition = 'transform 250ms';
+
+  //     instaDownloadBtn.addEventListener('mouseenter', () => {
+  //       instaDownloadBtn.style.transform = 'scale(1.1)';
+  //     });
+
+  //     instaDownloadBtn.addEventListener('mouseleave', () => {
+  //       instaDownloadBtn.style.transform = 'scale(1)';
+  //     });
+  //     const instaWrapper = document.createElement('div');
+  //     instaWrapper.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
+  //     instaDownloadBtn.appendChild(instaWrapper);
+  //     // instaDownloadBtn.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
+
+  //     const parentDiv = el.closest('div');
+  //     if (parentDiv) {
+  //       parentDiv.style.position = 'relative';
+  //       parentDiv.appendChild(instaDownloadBtn);
+  //     }
+  //   });
 };
 
 injector();

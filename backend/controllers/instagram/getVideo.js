@@ -4,7 +4,12 @@ const getVideo = async (req, res, next) => {
   try {
     const { url } = req.body;
     let response = await ndown(url);
-    console.log(response);
+    console.log(
+      `  url: response.data[0].url,
+        thumbnail: response.data[0].thumbnail,`,
+      response.data[0].url,
+      response.data[0].thumbnail
+    );
     if (response.status && response.data[0].thumbnail && response.data[0].url) {
       // Sending video URL back to the client
       res.send({
