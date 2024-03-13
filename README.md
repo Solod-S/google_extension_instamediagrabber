@@ -2,8 +2,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![runs with Google Scripting API](https://img.shields.io/badge/Runs%20with%20Chrome_Scripting_API-000.svg?style=flat-square&logo=Google&labelColor=DF3A2A&logoColor=E8AF01)](https://developer.chrome.com/docs/extensions/reference/api/scripting)
 [![runs with react](https://img.shields.io/badge/Runs%20with%20React-000.svg?style=flat-square&logo=React&labelColor=f3f3f3&logoColor=61DAFB)](https://uk.legacy.reactjs.org/)
-[![runs with nodeJs](https://img.shields.io/badge/Runs%20with%20Node.Js-000.svg?style=flat-square&logo=nodedotjs&labelColor=f3f3f3&logoColor=#3C823B)](https://nodejs.org/ru)
-[![runs with nestJs](https://img.shields.io/badge/Runs%20with%20Express-000.svg?style=flat-square&logo=NestJs&labelColor=f3f3f3&logoColor=red)](https://docs.nestjs.com/)
+[![runs with nodeJs](https://img.shields.io/badge/Runs%20with%20NodeJs-000.svg?style=flat-square&logo=nodedotjs&labelColor=f3f3f3&logoColor=#3C823B)](https://nodejs.org/ru)
+[![runs with nestJs](https://img.shields.io/badge/Runs%20with%20NestJs-000.svg?style=flat-square&logo=NestJs&labelColor=f3f3f3&logoColor=red)](https://docs.nestjs.com/)
 
 ![InstagramMediaGrabber](./media/4882388.jpg)
 
