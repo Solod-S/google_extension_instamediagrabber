@@ -1,4 +1,5 @@
 import { allImagesHandler } from '../../services';
+import { OPTIONS, DEFAULT_OPTIONS } from '../../utils/config';
 
 console.log('This is the background page.');
 console.log('Put the background scripts here.');
@@ -59,4 +60,15 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
     allImagesHandler();
   }
+});
+
+chrome.runtime.onInstalled.addListener(async () => {
+  chrome.storage.local.get(OPTIONS, (result) => {
+    OPTIONS.forEach((option) => {
+      // If the key is not in the results, set the default value
+      if (!(option in result)) {
+        chrome.storage.local.set({ [option]: DEFAULT_OPTIONS[option] });
+      }
+    });
+  });
 });

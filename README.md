@@ -5,9 +5,9 @@
 [![runs with nodeJs](https://img.shields.io/badge/Runs%20with%20NodeJs-000.svg?style=flat-square&logo=nodedotjs&labelColor=f3f3f3&logoColor=#3C823B)](https://nodejs.org/ru)
 [![runs with nestJs](https://img.shields.io/badge/Runs%20with%20NestJs-000.svg?style=flat-square&logo=NestJs&labelColor=f3f3f3&logoColor=red)](https://docs.nestjs.com/)
 
-![InstagramMediaGrabber](./media/4882388.jpg)
+![InstagramMediaGraber](./media/4882388.jpg)
 
-# Instagram Media Grabber
+# Instagram Media Graber
 
 **Built using React, Google Chrome Scripting API, NodeJs, NestJs & Swagger**.
 
@@ -20,7 +20,7 @@ This Chrome extension facilitates downloading:
 
 ## Features and Fuctionality
 
-![InstagramMediaGrabber](./redmi_assets/Stackoverflow-Copypaster.gif)
+![InstagramMediaGraber](./redmi_assets/Stackoverflow-Copypaster.gif)
 
 - Add save video button to DOM elements (save video)
 - Add save photo button to DOM elements (save video)

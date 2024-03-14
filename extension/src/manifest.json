@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Instagram Media Grabber",
+  "name": "Instagram Media Graber",
   "description": "A chrome extension.",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
@@ -11,7 +11,13 @@
   "icons": {
     "128": "icon-128.png"
   },
-  "permissions": ["scripting", "activeTab", "clipboardRead", "contextMenus"],
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "clipboardRead",
+    "contextMenus",
+    "storage"
+  ],
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*", "<all_urls>"],

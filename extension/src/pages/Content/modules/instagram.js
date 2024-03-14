@@ -123,100 +123,105 @@ export const handler = async () => {
   });
 };
 
-export const injector = () => {
-  // image
-  document
-    .querySelectorAll('div._aagv img[ crossorigin="anonymous" ]')
-    .forEach((el) => {
-      const parentLink = el.closest('a[role="link"]');
-      if (parentLink) return;
+export const injector = (showImageDownloadBtn, showVideoDownloadBtn) => {
 
-      if (el.getAttribute('hasDownloadBtn') === 'true') return;
-      el.setAttribute('hasDownloadBtn', 'true');
+  if (showImageDownloadBtn) {
+    // image
+    document
+      .querySelectorAll('div._aagv img[ crossorigin="anonymous" ]')
+      .forEach((el) => {
+        const parentLink = el.closest('a[role="link"]');
+        if (parentLink) return;
 
-      const instaDownloadBtn = document.createElement('button');
-      instaDownloadBtn.setAttribute('type', 'button');
-      instaDownloadBtn.setAttribute('id', 'instagram-btn');
-      instaDownloadBtn.setAttribute(
-        'class',
-        'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
-      );
-      instaDownloadBtn.style.position = 'absolute';
-      instaDownloadBtn.style.left = '4px';
-      instaDownloadBtn.style.top = '4px';
-      instaDownloadBtn.style.zIndex = '1';
-      instaDownloadBtn.style.cursor = 'pointer';
-      instaDownloadBtn.style.background =
-        'linear-gradient(45deg, #F4B04B, #A535B1)';
-      instaDownloadBtn.style.borderRadius = '30%';
-      instaDownloadBtn.style.transition = 'transform 250ms';
+        if (el.getAttribute('hasDownloadBtn') === 'true') return;
+        el.setAttribute('hasDownloadBtn', 'true');
 
-      instaDownloadBtn.addEventListener('mouseenter', () => {
-        instaDownloadBtn.style.transform = 'scale(1.1)';
+        const instaDownloadBtn = document.createElement('button');
+        instaDownloadBtn.setAttribute('type', 'button');
+        instaDownloadBtn.setAttribute('id', 'instagram-btn');
+        instaDownloadBtn.setAttribute(
+          'class',
+          'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
+        );
+        instaDownloadBtn.style.position = 'absolute';
+        instaDownloadBtn.style.left = '4px';
+        instaDownloadBtn.style.top = '4px';
+        instaDownloadBtn.style.zIndex = '1';
+        instaDownloadBtn.style.cursor = 'pointer';
+        instaDownloadBtn.style.background =
+          'linear-gradient(45deg, #F4B04B, #A535B1)';
+        instaDownloadBtn.style.borderRadius = '30%';
+        instaDownloadBtn.style.transition = 'transform 250ms';
+
+        instaDownloadBtn.addEventListener('mouseenter', () => {
+          instaDownloadBtn.style.transform = 'scale(1.1)';
+        });
+
+        instaDownloadBtn.addEventListener('mouseleave', () => {
+          instaDownloadBtn.style.transform = 'scale(1)';
+        });
+        const instaWrapper = document.createElement('div');
+        instaWrapper.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
+        instaDownloadBtn.appendChild(instaWrapper);
+        // instaDownloadBtn.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
+
+        const parentDiv = el.closest('div._aagv');
+        if (parentDiv) {
+          parentDiv.style.position = 'relative';
+          parentDiv.appendChild(instaDownloadBtn);
+        }
       });
+  }
 
-      instaDownloadBtn.addEventListener('mouseleave', () => {
-        instaDownloadBtn.style.transform = 'scale(1)';
+  if (showVideoDownloadBtn) {
+    // video
+    !window.location.href.includes('highlights') &&
+      !window.location.href.includes('instagram.com/?') &&
+      !window.location.href.includes('stories') &&
+      document.querySelectorAll('video[preload="none"]').forEach((el) => {
+        if (el.getAttribute('hasDownloadBtn') === 'true') return;
+        el.setAttribute('hasDownloadBtn', 'true');
+
+        const instaDownloadBtn = document.createElement('button');
+        instaDownloadBtn.setAttribute('type', 'button');
+        instaDownloadBtn.setAttribute('id', 'instagram-btn');
+        instaDownloadBtn.setAttribute(
+          'class',
+          'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
+        );
+        instaDownloadBtn.style.position = 'absolute';
+        instaDownloadBtn.style.left = '4px';
+        instaDownloadBtn.style.top = window.location.href.includes('stories')
+          ? '90px'
+          : '4px';
+        instaDownloadBtn.style.zIndex = '1';
+        instaDownloadBtn.style.cursor = 'pointer';
+        instaDownloadBtn.style.background =
+          'linear-gradient(45deg, #F4B04B, #A535B1)';
+        instaDownloadBtn.style.borderRadius = '30%';
+        instaDownloadBtn.style.transition = 'transform 250ms';
+
+        instaDownloadBtn.addEventListener('mouseenter', () => {
+          instaDownloadBtn.style.transform = 'scale(1.1)';
+        });
+
+        instaDownloadBtn.addEventListener('mouseleave', () => {
+          instaDownloadBtn.style.transform = 'scale(1)';
+        });
+
+        const instaWrapper = document.createElement('div');
+        instaWrapper.innerHTML = GeneralVideoBtnIcon(20, '#666666');
+        instaDownloadBtn.appendChild(instaWrapper);
+        // instaDownloadBtn.innerHTML = GeneralLoadingBtnIcon(20, '#666666');
+
+        // const parentDiv = el.closest('div._aatk._aatl') || el.closest('div');
+        const parentDiv = el.closest('div');
+        if (parentDiv) {
+          parentDiv.style.position = 'relative';
+          parentDiv.appendChild(instaDownloadBtn);
+        }
       });
-      const instaWrapper = document.createElement('div');
-      instaWrapper.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
-      instaDownloadBtn.appendChild(instaWrapper);
-      // instaDownloadBtn.innerHTML = GeneralPhotoBtnIcon(20, '#666666');
-
-      const parentDiv = el.closest('div._aagv');
-      if (parentDiv) {
-        parentDiv.style.position = 'relative';
-        parentDiv.appendChild(instaDownloadBtn);
-      }
-    });
-
-  // video
-  !window.location.href.includes('highlights') &&
-    !window.location.href.includes('instagram.com/?') &&
-    !window.location.href.includes('stories') &&
-    document.querySelectorAll('video[preload="none"]').forEach((el) => {
-      if (el.getAttribute('hasDownloadBtn') === 'true') return;
-      el.setAttribute('hasDownloadBtn', 'true');
-
-      const instaDownloadBtn = document.createElement('button');
-      instaDownloadBtn.setAttribute('type', 'button');
-      instaDownloadBtn.setAttribute('id', 'instagram-btn');
-      instaDownloadBtn.setAttribute(
-        'class',
-        'artdeco-button--tertiary artdeco-button artdeco-button--circle artdeco-button--muted'
-      );
-      instaDownloadBtn.style.position = 'absolute';
-      instaDownloadBtn.style.left = '4px';
-      instaDownloadBtn.style.top = window.location.href.includes('stories')
-        ? '90px'
-        : '4px';
-      instaDownloadBtn.style.zIndex = '1';
-      instaDownloadBtn.style.cursor = 'pointer';
-      instaDownloadBtn.style.background =
-        'linear-gradient(45deg, #F4B04B, #A535B1)';
-      instaDownloadBtn.style.borderRadius = '30%';
-      instaDownloadBtn.style.transition = 'transform 250ms';
-
-      instaDownloadBtn.addEventListener('mouseenter', () => {
-        instaDownloadBtn.style.transform = 'scale(1.1)';
-      });
-
-      instaDownloadBtn.addEventListener('mouseleave', () => {
-        instaDownloadBtn.style.transform = 'scale(1)';
-      });
-
-      const instaWrapper = document.createElement('div');
-      instaWrapper.innerHTML = GeneralVideoBtnIcon(20, '#666666');
-      instaDownloadBtn.appendChild(instaWrapper);
-      // instaDownloadBtn.innerHTML = GeneralLoadingBtnIcon(20, '#666666');
-
-      // const parentDiv = el.closest('div._aatk._aatl') || el.closest('div');
-      const parentDiv = el.closest('div');
-      if (parentDiv) {
-        parentDiv.style.position = 'relative';
-        parentDiv.appendChild(instaDownloadBtn);
-      }
-    });
+  }
 
   // reals
 

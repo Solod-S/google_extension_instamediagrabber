@@ -105,7 +105,7 @@ function DowloadPage() {
             <span>Select all</span>
           </label>
         </div>
-        {/* <span>Instagram Media Grabber</span> */}
+        {/* <span>Instagram Media Graber</span> */}
         <button id="downloadBtn" onClick={handleDownload}>
           Download
         </button>
