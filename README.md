@@ -20,11 +20,11 @@ This Chrome extension facilitates downloading:
 
 ## Features and Fuctionality
 
-![InstagramMediaGraber](./redmi_assets/Stackoverflow-Copypaster.gif)
-
 - Add save video button to DOM elements (save video)
 - Add save photo button to DOM elements (save video)
 - Add context menu options to save all images on the page (select and save all images)
+
+<!-- ![InstagramMediaGraber](./media/intagif2.gif) -->
 
 ## Load extension to chrome
 

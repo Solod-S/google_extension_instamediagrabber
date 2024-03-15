@@ -52,6 +52,7 @@ var options = {
     contentScript: path.join(__dirname, 'src', 'pages', 'Content', 'index.js'),
     devtools: path.join(__dirname, 'src', 'pages', 'Devtools', 'index.js'),
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
+    about: path.join(__dirname, 'src', 'pages', 'About', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
     notHotReload: ['background', 'contentScript', 'devtools'],
@@ -213,6 +214,12 @@ var options = {
       ),
       filename: 'dowloadPage.html',
       chunks: ['dowloadPage'],
+      cache: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'About', 'index.html'),
+      filename: 'about.html',
+      chunks: ['about'],
       cache: false,
     }),
     new HtmlWebpackPlugin({

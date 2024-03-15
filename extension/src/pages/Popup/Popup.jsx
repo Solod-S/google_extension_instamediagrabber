@@ -19,8 +19,20 @@ const Popup = () => {
   ] = useChromeStorage('instagraber-show-photoBtn', true);
   return (
     <Styled.Wrapper>
-      <img src={logo} alt="logo" className="logo" />
-
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          src={logo}
+          style={{ width: '200px' }}
+          alt="logo"
+          className="logo"
+        />
+      </div>
       {/* Options */}
       <label htmlFor="open-api-key" className="title">
         Options:

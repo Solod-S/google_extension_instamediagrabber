@@ -72,3 +72,12 @@ chrome.runtime.onInstalled.addListener(async () => {
     });
   });
 });
+
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === 'install') {
+    const url = chrome.runtime.getURL('./about.html');
+    chrome.tabs.create({
+      url,
+    });
+  }
+});
