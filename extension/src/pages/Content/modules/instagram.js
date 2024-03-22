@@ -1,10 +1,27 @@
 import JSZip from 'jszip';
+import secrets from 'secrets';
 import GeneralPhotoBtnIcon from '../../../components/GeneralPhotoBtnIcon';
 import GeneralVideoBtnIcon from '../../../components/GeneralVideoBtnIcon';
 import GeneralLoadingBtnIcon from '../../../components/GeneralLoadingBtnIcon';
 import './style.css';
 
 const zip = new JSZip();
+const { serverUrl, xApiKey } = secrets;
+
+function isNotInstagramMainPage() {
+  const pathname = window.location.pathname;
+  return (
+    window.location.hostname === 'www.instagram.com' && /\/.+/.test(pathname)
+  );
+}
+
+function isInstagramReelsPage() {
+  const pathname = window.location.pathname;
+  return (
+    window.location.hostname === 'www.instagram.com' &&
+    /\/reels\//.test(pathname)
+  );
+}
 
 export const handler = async () => {
   document.body.addEventListener('click', async (e) => {
@@ -16,7 +33,8 @@ export const handler = async () => {
 
     const needToDownloadImg = Boolean(target?.closest('._aagv'));
 
-    const needToDownloadVideo = Boolean(target?.closest('div._aatk._aatl'));
+    const needToDownloadVideo =
+      Boolean(target?.closest('div._aatk._aatl')) || isInstagramReelsPage();
 
     switch (true) {
       case needToDownloadImg:
@@ -59,13 +77,13 @@ export const handler = async () => {
           btn.disabled = true;
           videoWrapper.innerHTML = GeneralLoadingBtnIcon(20, '#666666');
           videoWrapper.classList.add('rotate');
-
           const pageUrlResponse = await fetch(
-            'http://localhost:1234/instagram/getvideo',
+            `${serverUrl}/instagram/getvideo`,
             {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
+                'X-API-KEY': xApiKey,
               },
               body: JSON.stringify({ url: pageUrl }),
             }
@@ -124,7 +142,6 @@ export const handler = async () => {
 };
 
 export const injector = (showImageDownloadBtn, showVideoDownloadBtn) => {
-
   if (showImageDownloadBtn) {
     // image
     document
@@ -176,6 +193,7 @@ export const injector = (showImageDownloadBtn, showVideoDownloadBtn) => {
   if (showVideoDownloadBtn) {
     // video
     !window.location.href.includes('highlights') &&
+      isNotInstagramMainPage() &&
       !window.location.href.includes('instagram.com/?') &&
       !window.location.href.includes('stories') &&
       document.querySelectorAll('video[preload="none"]').forEach((el) => {

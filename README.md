@@ -18,6 +18,8 @@ This Chrome extension facilitates downloading:
 - Videos from user or company profiles.
 - Videos from Instagram reels.
 
+![InstagramMediaGraber](./media//extension-720.gif)
+
 ## Features and Fuctionality
 
 - Add save video button to DOM elements (save video)
@@ -28,15 +30,26 @@ This Chrome extension facilitates downloading:
 
 ## Load extension to chrome
 
-1. Go to `extension` folder
-2. Run build command
+1. Create and set environment variables `secrets.development.js` && `secrets.production.js`
+
+```
+export default {
+  serverUrl: 'ServerUrl',
+  xApiKey: 'ApiKey',
+};
+
+```
+
+2. Go to `extension` folder
+3. Run build command
 
 ```
 npm run build
+
 ```
 
-3. Go to `chrome://extensions/` and click Load Unpacked
-4. Load `build` folder
+4. Go to `chrome://extensions/` and click Load Unpacked
+5. Load `build` folder
 
 ## Start server
 
